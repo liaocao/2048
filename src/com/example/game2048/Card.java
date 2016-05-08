@@ -8,15 +8,17 @@ import android.widget.TextView;
 public class Card extends FrameLayout {
     private int num = 0;
     private TextView label;//呈现文字用
+    private TextView test;
     public Card(Context context) {
         super(context);
         label = new TextView(getContext());
         label.setTextSize(32);
-        label.setBackgroundColor(0x33ffffff);//设置文字所处区域的背景色
+        label.setTextColor(0xffffffff);
+        label.setBackgroundColor(0xff464848);//设置文字所处区域的背景色ff2C3135
         label.setGravity(Gravity.CENTER);//将内容设置居中
         
         LayoutParams lp = new LayoutParams(-1, -1);//-1代表填充满整个父级容器
-        lp.setMargins(5, 5, 0, 0);//设置间隔，左边和上边都是10
+        lp.setMargins(10, 10, 0, 0);//设置间隔，左边和上边都是10
         addView(label, lp);
         
         setNum(0);

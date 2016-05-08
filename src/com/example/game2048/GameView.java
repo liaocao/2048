@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
@@ -17,24 +18,29 @@ public class GameView extends GridLayout {
 	public GameView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
+		Log.i("mDebug", "GameView context, attr, defStyle"+attrs.getAttributeValue(0));
 		initGameView();
+		
 	}
 
 	public GameView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
+		Log.i("mDebug", "GameView context");
 		initGameView();
+		
 	}
 
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		Log.i("mDebug", "GameView context, attr"+attrs.getAttributeValue(0));
 		// TODO Auto-generated constructor stub
 		initGameView();
 	}
 	
 	private void initGameView(){
 		setColumnCount(4);//设置GridLayout为4列 
-		setBackgroundColor(0xffbbada0);//设置背景色
+		setBackgroundColor(0xff2C3135);//设置背景色
 		
 		setOnTouchListener(new View.OnTouchListener() {
 			
@@ -81,9 +87,10 @@ public class GameView extends GridLayout {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		// TODO Auto-generated method stub
 		super.onSizeChanged(w, h, oldw, oldh);
+		Log.i("mDebug", "onSizeChanged");
 		
-		int cardWidth = (Math.min(w, h)-5)/4;//减10是为了留下10像素的空隙
-		
+		int cardWidth = (Math.min(w, h)-10)/4;//减10是为了给右边留下10像素的空隙
+
 		
 		addCards(cardWidth, cardWidth);
 		//手机直立和平放的时候，布局会发生变化，为了不让它变化，需要配置一下AndroidManifest文件
@@ -106,14 +113,14 @@ public class GameView extends GridLayout {
 	}
 	
 	private void startGame(){
-		MainActivity.getMainActivity().clearScore();
+		MainActivity.getMainActivity().clearScore();//这里是把主活动的数据清除了
 		
 		for(int y = 0; y < 4; y++){
 			for(int x = 0; x < 4; x++){
 				cardsMap[x][y].setNum(0);
 			}
 		}
-		
+
 		addRandowNum();
 		addRandowNum();
 		
@@ -121,34 +128,34 @@ public class GameView extends GridLayout {
 	
 	private void addRandowNum(){
 		
-		emptyPoints.clear();
+		emptyPoints.clear();//这里的清除无关于cardsMap，所以不会影响到游戏开始时的随机数字
 		//遍历所有卡片
 		for(int y = 0; y < 4; y++){
 			for(int x = 0; x < 4; x++){
 				if(cardsMap[x][y].getNum() <= 0){//只有方格内为空才能添加值
-					emptyPoints.add(new Point(x, y));
+					emptyPoints.add(new Point(x, y));//这个Point里的x和y应该只是一种标记，对应到以后使用
 				}
 			}
 		}
 		
-		Point p = emptyPoints.remove((int)(Math.random()*emptyPoints.size()));//随机的移除某个点
+		Point p = emptyPoints.remove((int)(Math.random()*emptyPoints.size()));//随机的移除某个点，移除了有什么用呢，移除了才能给这个点设置数字么
 		
 		cardsMap[p.x][p.y].setNum(Math.random() > 0.1? 2 : 4);//这样就添加一个随机的数值到p所处的位置，2的概率远远大于4
 	}
 	
 	private void swipeLeft(){
 		
-		boolean merge = false;
+		boolean merge = false;//
 		for(int y = 0; y < 4; y++){
 			for(int x = 0; x < 4; x++){
-				for(int x1 = x+1; x1 < 4; x1++){//遍历当前位置右边的值
+				for(int x1 = x+1; x1 < 4; x1++){//遍历当前位置右边的值，这里的循环是x与右边的三个值得一一比较
 					if(cardsMap[x1][y].getNum() > 0){//如果大于0，则说明不为空
 						if(cardsMap[x][y].getNum() <= 0){//如果当前位置是空的
 							cardsMap[x][y].setNum(cardsMap[x1][y].getNum());//就把右边有效的值放进来，并且清掉右边的值
 							cardsMap[x1][y].setNum(0);
 							
-							x--;//如果右边有两个相同的值，多遍历一次，就可以将其合并
-							
+							x--;//减减是为了让一个位置的右边值都充分比较
+							//这个只有当x的位置为空的时候才会减减一次，
 							merge = true;
 						}else if(cardsMap[x][y].equals(cardsMap[x1][y])){//如果两个值相同，就可以合并了
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum()*2);

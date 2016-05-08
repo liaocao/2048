@@ -9,7 +9,8 @@
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
         
         <TextView 
             android:layout_width="wrap_content"
@@ -18,17 +19,42 @@
             android:text="@string/score"/>
         
         <TextView 
-            android:id="@+id/tvScore"
+            android:id="@+id/tvScore1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
-    <com.example.game2048.GameView 
+    
+    
+    
+	    <com.example.game2048.GameView 
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="0.95"
+	        android:id="@+id/gameView">
+	        
+	    </com.example.game2048.GameView>
+	    
+	<LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/gameView">
+        android:layout_weight="0.05"
+        android:gravity="center_horizontal"
+        android:background="#2C3135"
+        android:orientation="horizontal">
+	    <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/score"/>
         
-    </com.example.game2048.GameView>
+        <TextView 
+            android:id="@+id/tvScore"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+
 </LinearLayout>
