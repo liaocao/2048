@@ -4,7 +4,8 @@
     <string name="app_name">2048</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="score">分数：</string>
-    <string name="_">分数</string>
+    <string name="score">分数:</string>
+    <string name="bestScore">最高分:</string>
+    <string name="restart">重新开始</string>
 
 </resources>
